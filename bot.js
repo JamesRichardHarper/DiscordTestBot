@@ -44,6 +44,17 @@ function rollXDice(HowMany, DiceSize){
     return DiceRolls
 };
 
+//Returns what the user sent and what the bot read
+function whatDidISay(ChannelID, ChatMessage, TotalArguments){
+    bot.sendMessage({
+        to: ChannelID,
+        message: 'Message Sent: ' + ChatMessage
+    });
+    bot.sendMessage({
+        to: ChannelID,
+        message: 'Arguments I found: ' + TotalArguments
+    });
+}
 
 // Bot's listening function
 bot.on('message', function (user, userID, channelID, message, evt) {
@@ -85,14 +96,16 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
             //!roll X Y
             case 'roll':
-                let LocalHowMany = args[1];
-                let LocalDiceSize = args [2];
-                let UserRolls = rollXDice(LocalHowMany, LocalDiceSize).toString;
+                let LocalHowMany = args[0];
+                let LocalDiceSize = args [1];
+                let UserRolls = rollXDice(LocalHowMany, LocalDiceSize);
 
                 bot.sendMessage({
                     to: channelID,
-                    message: user + ' you rolled ' + UserRolls
+                    message: user + ' you rolled (' + UserRolls + ")"
                 });
+
+                whatDidISay(channelID, message, args);
             break;
 
             //!shutdown

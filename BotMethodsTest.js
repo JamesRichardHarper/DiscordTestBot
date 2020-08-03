@@ -13,7 +13,8 @@ function rollXDice(HowMany, DiceSize){
     for(Start; Start < HowMany; Start++){
             DiceRolls.push(rollOneDice(DiceSize))
     }
-    return DiceRolls
+    
+    return DiceRolls;
 };
 
-console.log(rollXDice(4,20))
+console.log(rollXDice(4,20).toString());
