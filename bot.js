@@ -56,7 +56,16 @@ function whatDidISay(ChannelID, ChatMessage, TotalArguments){
     });
 }
 
-// Bot's listening function
+// Initialises a base callback
+async function wait(Before){
+    let promise = new promise((Success, Failure) => {
+        Success(Before), Failure(DefaultError)
+    })
+    let result = await promise;
+    console.log(result);
+}
+
+//// Bot's listening function
 bot.on('message', function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
@@ -109,25 +118,29 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             break;
 
             //!shutdown
-            case 'shutdown': {
+            case 'shutdown':
                 if (!BotController){
                     return;
                 }
                 
-                bot.sendMessage({
-                    to: channelID,
-                    message: "Don't go quietly into that good night."
-                }).then( Successful =>{
-                    bot.disconnect()
-                }).then( Unsuccessful =>{
-                    throw new Error()
-                })
+                async function shutdown(){
+                    return new Promise((resolve, reject) => {
+                        resolve(bot.sendMessage({
+                            to: channelID,
+                            message: "Do not go gentle into that good night."
+                        })),
+                        reject(bot.sendMessage({
+                            to: channelID,
+                            message: DefaultError
+                        }))
+                    });
+                }
 
-                break;
-
-            }
+                shutdown().then(bot.disconnect);
+                
+            break;
 
             // Just add any case commands if you want to..
-         }
+        }
      }
 });

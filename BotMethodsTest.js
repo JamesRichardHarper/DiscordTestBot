@@ -17,19 +17,49 @@ function rollXDice(HowMany, DiceSize){
     return DiceRolls;
 };
 
-const doSomethingElse = function(){
-    return new Promise((resolve,reject)=>{
-        console.log("Initial");
-        resolve();
-    }).then(()=>{
-        throw new Error('Something failed')
-        console.log("Do this");
-    }).catch(()=>{
-        console.log("Do that");
-        reject();
-    }).then(()=>{
-        console.log("Do this after whatever happened before");
-    });
+//Test basic async
+async function test(){
+    return "Hello World"
+};
+
+//console.log(test())
+
+//Test Async Function
+async function TestWait(){
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve("done!"), 1000),
+        setTimeout(() => reject("Oh No"), 2000)
+      });
+
+      let result = await promise;
+      console.log(result)
 }
 
-doSomethingElse()
+TestWait();
+
+//Test async with try catch
+async function testTry(){
+    try {
+        console.log("Hello World")
+    } 
+    catch (error) {
+        console.warn("Something has gone wrong")
+    }
+}
+
+//testTry();
+
+//Shutdown method using async
+async function shutdown(){
+    return new Promise((resolve, reject) => {
+        resolve(bot.sendMessage({
+            to: channelID,
+            message: "Do not go gentle into that good night."
+        })),
+        reject(bot.sendMessage({
+            to: channelID,
+            message: DefaultError
+        }))
+    });
+    
+}
