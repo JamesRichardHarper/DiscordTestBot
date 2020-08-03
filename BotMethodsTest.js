@@ -17,4 +17,19 @@ function rollXDice(HowMany, DiceSize){
     return DiceRolls;
 };
 
-console.log(rollXDice(4,20).toString());
+const doSomethingElse = function(){
+    return new Promise((resolve,reject)=>{
+        console.log("Initial");
+        resolve();
+    }).then(()=>{
+        throw new Error('Something failed')
+        console.log("Do this");
+    }).catch(()=>{
+        console.log("Do that");
+        reject();
+    }).then(()=>{
+        console.log("Do this after whatever happened before");
+    });
+}
+
+doSomethingElse()

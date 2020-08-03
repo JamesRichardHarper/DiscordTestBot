@@ -105,7 +105,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: user + ' you rolled (' + UserRolls + ")"
                 });
 
-                whatDidISay(channelID, message, args);
+                // whatDidISay(channelID, message, args);
             break;
 
             //!shutdown
@@ -114,7 +114,14 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     return;
                 }
                 
-                message.chan
+                bot.sendMessage({
+                    to: channelID,
+                    message: "Don't go quietly into that good night."
+                }).then( Successful =>{
+                    bot.disconnect()
+                }).then( Unsuccessful =>{
+                    throw new Error()
+                })
 
                 break;
 
